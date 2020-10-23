@@ -42,7 +42,7 @@ class AtlasI2C:
         self.set_i2c_address(self._address)
         self._name = name
         self._module = moduletype
-
+        self.current_data = None
 	
     @property
     def long_timeout(self):
@@ -136,15 +136,22 @@ class AtlasI2C:
         response = self.get_response(raw_data=raw_data)
         #print(response)
         is_valid, error_code = self.response_valid(response=response)
-
         if is_valid:
             char_list = self.handle_raspi_glitch(response[1:])
+            
+
+            #result = self._module + str(' '.join(char_list))
             result = "Success " + self.get_device_info() + ": " +  str(''.join(char_list))
-            #result = "Success: " +  str(''.join(char_list))
+            self.current_data = str(''.join(char_list))
         else:
             result = "Error " + self.get_device_info() + ": " + error_code
+            self.current_data = error_code
 
         return result
+
+    def get_plain_data(self):
+        #returns just parsed data
+        return self.current_data.partition("\x00")[0]
 
     def get_command_timeout(self, command):
         timeout = None

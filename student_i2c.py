@@ -8,18 +8,17 @@ from AtlasI2C import (
 	 AtlasI2C
 )
 from view import View
-
-
+from datetime import datetime
+import csv
        
 def main():
 
     view = View()
-
     device_list = view.get_devices()
     device = device_list[0]
-
+   
+    view.print_device_info(device)
     view.print_help_text()
-    view.print_devices(device_list,device)
 
     real_raw_input = vars(__builtins__).get('raw_input', input)
     
@@ -48,17 +47,19 @@ def main():
                 print("Polling time is shorter than timeout, setting polling time to %0.2f" % device.long_timeout)
                 delaytime = device.long_timeout
             try:
-                while True:
-                    print("-------press ctrl-c to stop the polling")
-                    for dev in device_list:
-                        dev.write("R")
-                    time.sleep(delaytime)
-                    for dev in device_list:
-                        print(dev.read())
-                
+                with open('data.csv',mode='w') as file:
+                    file_writer = csv.writer(file,delimiter=',') 
+                    while True:
+                        print("-------press ctrl-c to stop the polling")
+                    
+                        device.write("R")
+                        time.sleep(delaytime)
+                        print(device.read())
+                        plain_data = device.get_plain_data() 
+                        date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        file_writer.writerow([date_time,plain_data])
             except KeyboardInterrupt:       # catches the ctrl-c command, which breaks the loop above
                 print("Continuous polling stopped")
-                print_devices(device_list, device)
                 
         
           
