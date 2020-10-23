@@ -1,3 +1,13 @@
+import io
+import sys
+import fcntl
+import time
+import copy
+import string
+from AtlasI2C import (
+	 AtlasI2C
+)
+
 class View:
 
     def print_help_text():
