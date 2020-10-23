@@ -126,6 +126,9 @@ class AtlasI2C:
             return self._module + " " + str(self.address)
         else:
             return self._module + " " + str(self.address) + " " + self._name
+
+    def get_device_datatype(self):
+        return self._module
         
     def read(self, num_of_bytes=31):
         '''

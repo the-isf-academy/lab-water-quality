@@ -48,7 +48,8 @@ def main():
                 delaytime = device.long_timeout
             try:
                 with open('data.csv',mode='w') as file:
-                    file_writer = csv.writer(file,delimiter=',') 
+                    file_writer = csv.writer(file,delimiter=',')
+                    file_writer.writerow(['date/time',device.get_device_datatype()])
                     while True:
                         print("-------press ctrl-c to stop the polling")
                     
