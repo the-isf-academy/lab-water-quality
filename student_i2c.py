@@ -9,7 +9,10 @@ from AtlasI2C import (
 )
 from view import View
 from datetime import datetime
+from pytz import timezone
 import csv
+
+hong_kong = timezone('Asia/Hong_Kong')
        
 def main():
 
@@ -41,7 +44,7 @@ def main():
             time.sleep(delaytime)
             print(device.read())
             plain_data = device.get_plain_data() 
-            date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            date_time = datetime.now(hong_kong).strftime("%Y-%m-%d %H:%M:%S")
             file_writer.writerow([date_time,plain_data])
         
           
