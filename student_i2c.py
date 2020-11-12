@@ -22,13 +22,11 @@ def main():
     print(sys.argv)
     print(len(sys.argv)) 
     
-    if len(sys.argv) == 2:
+    if len(sys.argv) >= 2:
         delaytime = float(sys.argv[1])
-        num_poll = 10
-    elif len(sys.argv) == 3:
-        delaytime = float(sys.argv[1])
+    if len(sys.argv) >= 3:
         num_poll = int(sys.argv[2])
-    else:
+    if len(sys.argv) == 1:
         num_poll = 10
         delaytime=device.long_timeout
     
