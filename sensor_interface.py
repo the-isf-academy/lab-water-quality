@@ -14,7 +14,7 @@ def interface():
     device = AtlasI2C(address=controller.list_i2c_devices()[0])
 
     with open('data_tank.csv',mode='a+') as file:
-        file_writer = csv.write(file,delimiter=',')
+        file_writer = csv.writer(file,delimiter=',')
         file_writer.writerow(['date'])
 
         date = datetime.now(hong_kong).strftime("%d-%m-%Y")
